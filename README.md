@@ -1,7 +1,7 @@
 # Tiptop Payment Module for Magento 2
 
 ```
-tiptop/module-paymentgateway
+tiptop/payment-gateway
 ```
 
  - [Main Functionalities](#main-functionalities)
@@ -14,7 +14,7 @@ tiptop/module-paymentgateway
 Tiptop Payment Module for Magento 2
 
 ## Installation
- - Install the module composer by running `composer require tiptop/module-paymentgateway`
+ - Install the module composer by running `composer require tiptop/payment-gateway`
  - Install the module by running `php bin/magento setup:upgrade`
  - Flush the cache by running `php bin/magento cache:flush`
 
