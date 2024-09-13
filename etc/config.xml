@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+	<default>
+		<payment>
+			<tiptop>
+				<script_url_test>https://cdn-stage.tiptop.com/js/v1/tiptop.js</script_url_test>
+				<script_url_production>https://cdn.tiptop.com/js/v1/tiptop.js</script_url_production>
+				<api_base_url>https://api-stage.tiptop.com/</api_base_url>
+				<model>TiptopFacade</model>
+				<active>0</active>
+				<is_gateway>1</is_gateway>
+				<can_use_checkout>1</can_use_checkout>
+				<can_refund>1</can_refund>
+				<can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
+				<title>Tiptop</title>
+				<test_mode>1</test_mode>
+				<test_api backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
+				<production_api backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
+				<order_status>processing</order_status>
+				<allowspecific>0</allowspecific>
+				<debug>1</debug>
+				<group>offline</group>
+				<tiptop_promotional_messaging>
+					<product_active>0</product_active>
+				</tiptop_promotional_messaging>
+			</tiptop>
+		</payment>
+	</default>
+</config>

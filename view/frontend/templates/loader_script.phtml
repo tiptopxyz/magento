@@ -1,0 +1,34 @@
+<?php
+/**
+ * @var LoaderScript $block
+ * @var Escaper $escaper
+ * @var SecureHtmlRenderer $secureRenderer
+ */
+
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Helper\SecureHtmlRenderer;
+use Tiptop\PaymentGateway\Block\LoaderScript;
+?>
+
+<?php
+$publicApiKey = $escaper->escapeHtml($block->getPublicApiKey());
+$scriptUrl = $escaper->escapeHtml($block->getScriptUrl());
+
+$scriptString = <<<Script
+    var _tiptop_config = {
+        public_api_key: "{$publicApiKey}",
+        script: "{$scriptUrl}",
+    };
+
+    !(function (t, e) {
+        var n = t.tiptop || {},
+            c = document.createElement("script");
+        (c.async = !0), (c.src = e.script);
+        var i = document.getElementsByTagName("script")[0];
+        i.parentNode?.insertBefore(c, i), (t.tiptop = n);
+    })(window, _tiptop_config);
+Script;
+?>
+
+<?= /* @noEscape */
+$secureRenderer->renderTag('script', [], $scriptString, false) ?>

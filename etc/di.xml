@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Tiptop\PaymentGateway\Api\GuestReserveOrderIdInterface"
+                type="Tiptop\PaymentGateway\Model\GuestReserveOrderId"/>
+    <preference for="Tiptop\PaymentGateway\Api\ReserveOrderIdInterface"
+                type="Tiptop\PaymentGateway\Model\ReserveOrderId"/>
+    <virtualType name="TiptopLogger" type="Magento\Framework\Logger\Monolog">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="error" xsi:type="object">Tiptop\PaymentGateway\Logger\Handler\ErrorHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Tiptop\PaymentGateway\Controller\Gateway\Success">
+        <arguments>
+            <argument name="logger" xsi:type="object">TiptopLogger</argument>
+        </arguments>
+    </type>
+    <type name="Tiptop\PaymentGateway\Controller\Gateway\Logger">
+        <arguments>
+            <argument name="logger" xsi:type="object">TiptopLogger</argument>
+        </arguments>
+    </type>
+
+    <virtualType name="TiptopFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">Tiptop\PaymentGateway\Gateway\Config\Config::METHOD_CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">Magento\Payment\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">TiptopValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">TiptopCommandPool</argument>
+        </arguments>
+    </virtualType>
+    <type name="Tiptop\PaymentGateway\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="string">tiptop</argument>
+        </arguments>
+    </type>
+    <virtualType name="TiptopValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">TiptopConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="TiptopConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">Tiptop\PaymentGateway\Gateway\Config\Config</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="TiptopCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="refund" xsi:type="string">TiptopRefundCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Refund -->
+    <virtualType name="TiptopRefundCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">TiptopRefundRequestBuilder</argument>
+            <argument name="transferFactory" xsi:type="object">Tiptop\PaymentGateway\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">TiptopClientRest</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="TiptopRefundRequestBuilder" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="method" xsi:type="string">Tiptop\PaymentGateway\Gateway\Request\MethodBuilder</item>
+                <item name="uri" xsi:type="string">TiptopRefundUriBuilder</item>
+                <item name="refund_body" xsi:type="string">Tiptop\PaymentGateway\Gateway\Request\RefundBodyBuilder</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="TiptopRefundUriBuilder" type="Tiptop\PaymentGateway\Gateway\Request\UriBuilder">
+        <arguments>
+            <argument name="api" xsi:type="const">Tiptop\PaymentGateway\Gateway\Request\UriBuilder::API_REFUND</argument>
+            <argument name="config" xsi:type="object">Tiptop\PaymentGateway\Gateway\Config\Config</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="TiptopClientRest" type="Tiptop\PaymentGateway\Gateway\Http\Client\Rest">
+        <arguments>
+            <argument name="logger" xsi:type="object">TiptopLogger</argument>
+            <argument name="converter" xsi:type="object">Tiptop\PaymentGateway\Gateway\Http\Client\JsonToArrayConverter</argument>
+        </arguments>
+    </virtualType>
+</config>

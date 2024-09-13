@@ -1,0 +1,69 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+	<system>
+		<section id="payment" sortOrder="1000" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+			<group id="tiptop" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="reference" type="note" translate="label" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="0">
+					<frontend_model>Tiptop\PaymentGateway\Model\System\Reference</frontend_model>
+				</field>
+				<comment><![CDATA[<div class='tiptop-payment-logo'></div><div class='tiptop-payment-text'>Sell more, faster with trade in at checkout. <br/>Tiptop adds purchasing power and boosts conversions for every transaction through the power of trade in.</div>]]></comment>
+				<fieldset_css>complex tiptop-section</fieldset_css>
+				<frontend_model>Tiptop\PaymentGateway\Block\Adminhtml\System\Config\Fieldset\Payment</frontend_model>
+				<field id="active" type="select" sortOrder="10" showInWebsite="1" showInDefault="1" canRestore="1" translate="label">
+					<label>Enabled</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+				<field id="title" type="text" sortOrder="20" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+					<label>Title</label>
+				</field>
+				<field id="allowspecific" type="allowspecific" sortOrder="70" showInWebsite="1" canRestore="1" showInDefault="1" translate="label">
+					<label>Payment from Applicable Countries</label>
+					<source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+				</field>
+				<field id="specificcountry" type="multiselect" sortOrder="80" showInWebsite="1" canRestore="1" showInDefault="1" translate="label">
+					<label>Payment from Applicable Countries</label>
+					<source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+					<can_be_empty>1</can_be_empty>
+				</field>
+				<field id="test_mode" sortOrder="30" translate="label" type="select" showInDefault="1"
+					   showInWebsite="1"
+					   showInStore="0">
+					<label>Mode</label>
+					<source_model>Tiptop\PaymentGateway\Model\System\Config\Mode</source_model>
+				</field>
+				<field id="test_api" sortOrder="40" translate="label" type="obscure" showInDefault="1"
+					   showInWebsite="1"
+					   showInStore="0">
+					<label>Test API Key</label>
+					<backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+				</field>
+				<field id="production_api" sortOrder="50" translate="label" type="obscure" showInDefault="1"
+					   showInWebsite="1"
+					   showInStore="0">
+					<label>Production API Key</label>
+					<backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+				</field>
+				<field id="server_api" sortOrder="60" translate="label" type="obscure" showInDefault="1"
+					   showInWebsite="1"
+					   showInStore="0">
+					<label>Server API Key</label>
+					<backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+				</field>
+				<field id="sort_order" type="text" sortOrder="90" showInWebsite="1" showInDefault="1" translate="label">
+					<label>Sort Order</label>
+				</field>
+				<field id="debug" type="select" sortOrder="110" showInWebsite="1" showInDefault="1" canRestore="1" translate="label">
+					<label>Debug</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+				<group id="tiptop_promotional_messaging" sortOrder="200" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+					<label>Tiptop Promotional Messaging</label>
+					<field id="product_active" type="select" sortOrder="210" showInWebsite="1" showInDefault="1" canRestore="1" translate="label">
+						<label>Enable on product</label>
+						<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+					</field>
+				</group>
+			</group>
+		</section>
+	</system>
+</config>
